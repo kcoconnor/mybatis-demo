@@ -1,0 +1,58 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.mbwa.mybatisdemo.ProductionLookupDataMapper">
+
+	<resultMap id="ProductCategoryResultMap" type="co.mbwa.mybatisdemo.ProductCategory">
+		<id column="productCategoryId" property="productCategoryId" />
+		<result column="productCategoryId" property="productCategoryId" />
+		<result column="name" property="name" />
+		<result column="rowGuid" property="rowGuid" />
+		<result column="modifiedDate" property="modifiedDate" />	
+	</resultMap>
+
+	<resultMap id="ProductSubcategoryResultMap" type="co.mbwa.mybatisdemo.ProductSubcategory">
+		<id column="productSubcategoryId" property="productSubcategoryId" />		
+		<result column="productSubcategoryId" property="productSubcategoryId" />
+		<result column="productCategoryId" property="productCategoryId" />
+		<result column="name" property="name" />
+		<result column="rowGuid" property="rowGuid" />
+		<result column="modifiedDate" property="modifiedDate" />	
+	</resultMap>
+	
+	<resultMap id="UnitMeasureResultMap" type="co.mbwa.mybatisdemo.UnitMeasure">
+		<id column="unitMeasureCode" property="unitMeasureCode" />
+		<result column="unitMeasureCode" property="unitMeasureCode" />
+		<result column="name" property="name" />
+		<result column="modifiedDate" property="modifiedDate" />	
+	</resultMap>
+
+	<resultMap id="ProductionDataHolderResultMap" type="co.mbwa.mybatisdemo.ProductionDataHolder">
+		<id column="id" property="id" />	
+		<result column="id" property="id" />
+				
+		<collection  property="productCategories" resultMap="ProductCategoryResultMap" resultSet="2" />
+		<collection  property="productSubcategories" resultMap="ProductSubcategoryResultMap" resultSet="3" />
+		<collection  property="unitMeasures" resultMap="UnitMeasureResultMap" resultSet="4"/>
+		
+	</resultMap>
+
+	
+	
+	<select id="getProductCategories" resultMap="ProductCategoryResultMap">
+		SELECT * FROM PRODUCTCATEGORY
+	</select>
+
+	<select id="getProductSubcategories" resultMap="ProductSubcategoryResultMap">
+		SELECT * FROM PRODUCTSUBCATEGORY
+	</select>
+
+	<select id="getUnitMeasures" resultMap="UnitMeasureResultMap">
+		SELECT * FROM UNITMEASURE
+	</select>
+	
+	<select id="getProductionLookupData" resultMap="ProductionDataHolderResultMap" statementType="CALLABLE" resultSets="1,2,3,4" resultSetType="SCROLL_INSENSITIVE">
+  		{call [dbo].[GetProductionLookupData]}
+	</select>
+
+	
+</mapper>
+	
